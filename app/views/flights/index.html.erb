@@ -1,0 +1,50 @@
+<h2> Flight's Finder </h2>
+
+<!-- Insert Search Form Here -->
+
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:departure_id, "From:") %>
+  <%= select_tag(:departure_id, options_for_select(@flight_dep_opt)) %>
+  <%= label_tag(:arrival_id, "To:") %>
+  <%= select_tag(:arrival_id,   options_for_select(@flight_arr_opt)) %>
+  <%= label_tag(:pass_num, "# of Passengers:") %>
+  <%= select_tag(:pass_num, options_for_select(@flight_pas_opt)) %>
+  <%= label_tag(:dept_date, "Date Departing:") %>
+  <%= select_tag(:dept_date, options_for_select(@flight_dep_date)) %>
+  <%= submit_tag("Search") %>
+
+<% end %>
+
+
+<!-- Insert Display From Here -->
+<h3> Avaiable Flights </h3>
+<table>
+  <tr>
+    <td> Flight ID: </td>
+    <td> Time: </td>
+    <td> Departing From: </td>
+    <td> Arriving To: </td>
+    <td> Duration </td>
+    <% if @search %>
+      <td> Flight Select </td>
+    <% end %>
+  </tr>
+<%= form_tag("/select", method: "get") do %>
+	<% @flights.each do |flight| %>
+	  <tr>
+	    <td> <%= flight.id %>               </td>
+	    <td> <%= flight.departure %>        </td>
+	    <td> <%= flight.from_airport.code %></td>
+	    <td> <%= flight.to_airport.code %>  </td>
+	    <td> <%= flight.duration %>         </td>
+	    <% if @search %>
+	      <td> <%= radio_button_tag(:flight_select, flight.id) %> </td>
+	    <% end %>
+	  </tr>
+	<% end %>
+</table>
+<% if @search %>
+<%= hidden_field_tag(:pass_num, @pass_num) %>
+<%= submit_tag("Select flight") %>
+ <% end %>
+<% end %>

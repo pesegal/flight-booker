@@ -1,0 +1,14 @@
+<h3> Booking for flight number <%= @flight.id %></h3>
+<h4> FROM: <%= @flight.from_airport.code %> TO: <%= @flight.to_airport.code %> DATE: <%= @flight.departure %></h4>
+<%= form_for @booking do |f| %>
+    <%= f.fields_for :passengers do |pass_form| %>
+      <h4> Passanger </h4>
+      <%= pass_form.label(:name, "Name") %>
+      <%= pass_form.text_field(:name) %>
+      <%= pass_form.label(:email, "Email") %>
+      <%= pass_form.text_field(:email) %>
+      <br>
+    <% end %>
+    <%= hidden_field_tag(:flight_select, @flight.id) %>
+  <%= f.submit %>
+<% end %>
