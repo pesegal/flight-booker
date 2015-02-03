@@ -10,6 +10,12 @@ class BookingsController < ApplicationController
 		@flight = Flight.find(params[:flight_select])
 		@booking = @flight.bookings.create(booking_params)
 
+
+		@booking.passengers.each do |passenger|
+		   PassengerMailer.thank_you_email(passenger).deliver_now
+		end
+
+
 		redirect_to @booking
 
 	end
